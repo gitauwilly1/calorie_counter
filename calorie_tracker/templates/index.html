@@ -1,35 +1,44 @@
 {% extends 'calorie_tracker/base.html' %}
+{% load static %}
 
 {% block title %}Daily Calorie Tracker{% endblock %}
 
 {% block content %}
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-    <div class="lg:col-span-1">
-        <div class="bg-white rounded-xl shadow-lg p-6 hover-lift">
-            <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
-                <svg class="h-6 w-6 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+    
+    <div class="lg:col-span-1" id="add-food-section">
+        <div class="bg-white rounded-xl shadow-lg p-6 card-hover">
+            <div class="flex items-center space-x-2 mb-6">
+                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
                 </svg>
-                Add Food Item
-            </h2>
+                <h2 class="text-xl font-semibold text-gray-800">
+                    Add Food Item
+                </h2>
+            </div>
             
-            <form method="POST" action="{% url 'add_food_item' %}" class="space-y-4">
+            <form method="POST" action="{% url 'add_food_item' %}" class="space-y-4" novalidate>
                 {% csrf_token %}
                 
                 <div>
                     <label for="{{ form.name.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
-                        <span class="flex items-center">
-                            <svg class="h-4 w-4 mr-1 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
-                            </svg>
-                            Food Name
-                        </span>
+                        <svg class="inline-block w-4 h-4 mr-1 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+                        </svg>
+                        Food Name
                     </label>
-                    {{ form.name }}
+                    <input type="text" 
+                           name="{{ form.name.name }}" 
+                           id="{{ form.name.id_for_label }}"
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent custom-focus"
+                           placeholder="e.g., Chicken Breast, Apple, Rice"
+                           required
+                           maxlength="200"
+                           value="{{ form.name.value|default_if_none:'' }}">
                     {% if form.name.errors %}
                     <p class="text-red-500 text-xs mt-1 flex items-center">
-                        <svg class="h-3 w-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
                         </svg>
                         {{ form.name.errors.0 }}
                     </p>
@@ -38,41 +47,48 @@
                 
                 <div>
                     <label for="{{ form.calories.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
-                        <span class="flex items-center">
-                            <svg class="h-4 w-4 mr-1 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                            </svg>
-                            Calories
-                        </span>
+                        <svg class="inline-block w-4 h-4 mr-1 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"/>
+                        </svg>
+                        Calories
                     </label>
-                    {{ form.calories }}
+                    <input type="number" 
+                           name="{{ form.calories.name }}" 
+                           id="{{ form.calories.id_for_label }}"
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent custom-focus"
+                           placeholder="0"
+                           required
+                           min="1"
+                           value="{{ form.calories.value|default_if_none:'' }}">
                     {% if form.calories.errors %}
                     <p class="text-red-500 text-xs mt-1 flex items-center">
-                        <svg class="h-3 w-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
                         </svg>
                         {{ form.calories.errors.0 }}
                     </p>
                     {% endif %}
                 </div>
                 
-                <button type="submit" class="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-200 transform hover:scale-105 flex items-center justify-center">
-                    <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                <button type="submit" 
+                        class="w-full bg-blue-600 text-white px-4 py-3 rounded-lg hover:bg-blue-700 transition duration-200 transform hover:scale-105 flex items-center justify-center space-x-2 font-medium">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
                     </svg>
-                    Add Food Item
+                    <span>Add Food Item</span>
                 </button>
             </form>
         </div>
     </div>
 
     <div class="lg:col-span-2">
-        <div class="bg-white rounded-xl shadow-lg p-6 mb-6 hover-lift">
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center">
-                <div class="mb-4 sm:mb-0">
+        
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-6 card-hover">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
+                <div>
                     <h2 class="text-xl font-semibold text-gray-800 flex items-center">
-                        <svg class="h-6 w-6 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        <svg class="w-6 h-6 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
                         </svg>
                         Daily Summary
                     </h2>
@@ -80,57 +96,49 @@
                         Total calories consumed today
                     </p>
                 </div>
-                <div class="text-right">
+                <div class="text-right mt-4 sm:mt-0">
                     <div class="text-4xl font-bold {% if total_calories > 2000 %}text-red-600{% else %}text-green-600{% endif %}">
                         {{ total_calories }}
                     </div>
-                    <p class="text-sm text-gray-600">calories</p>
+                    <p class="text-xs text-gray-500">calories</p>
                 </div>
             </div>
             
-            <div class="mt-4 bg-gray-200 rounded-full h-4 overflow-hidden">
-                <div class="bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 h-4 rounded-full transition-all duration-500" 
-                     style="width: {% widthratio total_calories 2000 100 %}%">
+            <div class="mt-6">
+                <div class="flex justify-between text-sm text-gray-600 mb-2">
+                    <span>0 cal</span>
+                    <span>2,000 cal</span>
                 </div>
-            </div>
-            
-            <div class="mt-2 flex items-center justify-between text-xs">
-                <span class="text-gray-600">0 cal</span>
-                <span class="font-semibold {% if total_calories > 2000 %}text-red-600{% else %}text-green-600{% endif %}">
-                    {% if total_calories <= 2000 %}
-                        <span class="flex items-center">
-                            <svg class="h-3 w-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                            </svg>
-                            {{ total_calories }}/2000 - Within limit
-                        </span>
+                <div class="bg-gray-200 rounded-full h-4 overflow-hidden">
+                    <div class="progress-bar {% if total_calories > 2000 %}over-limit{% endif %} h-4 rounded-full transition-all duration-500" 
+                         style="width: {% widthratio total_calories 2000 100 %}%">
+                    </div>
+                </div>
+                <p class="text-xs text-gray-600 mt-2">
+                    {% if total_calories == 0 %}
+                        Start adding food items to track your daily intake
+                    {% elif total_calories <= 2000 %}
+                        <span class="text-green-600 font-medium">{{ total_calories }}/2000</span> calories - Within daily limit
                     {% else %}
-                        <span class="flex items-center">
-                            <svg class="h-3 w-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
-                            </svg>
-                            {{ total_calories }}/2000 - Over by {{ total_calories|add:"-2000" }}
-                        </span>
+                        <span class="text-red-600 font-medium">{{ total_calories }}/2000</span> calories - Over limit by {{ total_calories|add:"-2000" }} calories
                     {% endif %}
-                </span>
-                <span class="text-gray-600">2000 cal</span>
+                </p>
             </div>
         </div>
 
-        <div class="bg-white rounded-xl shadow-lg p-6">
+        <div class="bg-white rounded-xl shadow-lg p-6 card-hover">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
                 <h2 class="text-xl font-semibold text-gray-800 flex items-center mb-4 sm:mb-0">
-                    <!-- List Icon -->
-                    <svg class="h-6 w-6 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
+                    <svg class="w-6 h-6 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/>
                     </svg>
                     Today's Food Items
                 </h2>
+                
                 <div class="flex items-center space-x-3">
-                    <!-- Item Count Badge -->
                     <span class="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full flex items-center">
-                        <svg class="h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
                         </svg>
                         {{ food_items|length }} items
                     </span>
@@ -139,13 +147,12 @@
                     <form method="POST" action="{% url 'reset_calories' %}" class="inline">
                         {% csrf_token %}
                         <button type="submit" 
-                                class="bg-red-500 text-white text-sm px-4 py-2 rounded-lg hover:bg-red-600 transition duration-200 transform hover:scale-105 flex items-center"
-                                onclick="return confirm('Are you sure you want to reset all calories for today?')">
-                            <!-- Refresh/Reset Icon -->
-                            <svg class="h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                                class="bg-red-500 text-white text-sm px-4 py-2 rounded-lg hover:bg-red-600 transition duration-200 flex items-center space-x-1"
+                                onclick="return confirm('Are you sure you want to reset all calories for today? This action cannot be undone.')">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
                             </svg>
-                            Reset All
+                            <span>Reset All</span>
                         </button>
                     </form>
                     {% endif %}
@@ -153,36 +160,35 @@
             </div>
 
             {% if food_items %}
-            <div class="space-y-3 max-h-96 overflow-y-auto pr-2" id="food-items-list">
+            <div class="space-y-3 max-h-96 overflow-y-auto pr-2">
                 {% for item in food_items %}
-                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-gray-50 rounded-lg p-4 hover:bg-gray-100 transition duration-200 animate-fade-in">
-                    <div class="flex-1 mb-3 sm:mb-0">
-                        <h3 class="font-medium text-gray-800 flex items-center">
-                            <!-- Food Item Icon -->
-                            <svg class="h-5 w-5 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+                <div class="flex items-center justify-between bg-gray-50 rounded-lg p-4 hover:bg-gray-100 transition duration-200 slide-in card-hover">
+                    <div class="flex-1 min-w-0">
+                        <h3 class="font-medium text-gray-800 truncate">{{ item.name }}</h3>
+                        <div class="flex items-center text-sm text-gray-600 mt-1">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                             </svg>
-                            {{ item.name }}
-                        </h3>
-                        <p class="text-sm text-gray-600 mt-1 flex items-center ml-7">
-                            <!-- Clock Icon -->
-                            <svg class="h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                            Added {{ item.date_added|timesince }} ago
-                        </p>
+                            <span>{{ item.date_added|timesince }} ago</span>
+                        </div>
                     </div>
-                    <div class="flex items-center space-x-4 w-full sm:w-auto justify-between sm:justify-end">
-                        <span class="text-lg font-semibold px-3 py-1 rounded-full {% if item.calories > 500 %}bg-orange-100 text-orange-700{% elif item.calories > 200 %}bg-yellow-100 text-yellow-700{% else %}bg-green-100 text-green-700{% endif %}">
-                            {{ item.calories }} cal
-                        </span>
+                    
+                    <div class="flex items-center space-x-4 ml-4">
+                        <div class="text-right">
+                            <span class="text-lg font-semibold {% if item.calories > 500 %}text-orange-600{% else %}text-green-600{% endif %}">
+                                {{ item.calories }}
+                            </span>
+                            <span class="text-xs text-gray-500 ml-1">cal</span>
+                        </div>
+                        
                         <a href="{% url 'remove_food_item' item.id %}" 
-                           class="text-red-500 hover:text-red-700 hover:bg-red-50 transition duration-200 p-2 rounded-lg"
-                           title="Remove {{ item.name }}"
-                           onclick="return confirm('Are you sure you want to remove {{ item.name }}?')">
+                           class="text-gray-400 hover:text-red-500 transition duration-200 p-2 rounded-lg hover:bg-red-50 tooltip"
+                           onclick="return confirm('Are you sure you want to remove {{ item.name|escapejs }}?')"
+                           aria-label="Remove {{ item.name }}">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                             </svg>
+                            <span class="tooltiptext">Remove item</span>
                         </a>
                     </div>
                 </div>
@@ -190,39 +196,25 @@
             </div>
             {% else %}
             <div class="text-center py-12">
-                <svg class="mx-auto h-24 w-24 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 002-2V2M7 2v7M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2v10z"></path>
-                </svg>
+                <img src="{% static 'calorie_tracker/images/empty-state.svg' %}" 
+                     alt="No food items" 
+                     class="mx-auto mb-4 w-32 h-32"
+                     width="128" 
+                     height="128">
                 <h3 class="text-xl font-medium text-gray-600 mb-2">No food items yet</h3>
-                <p class="text-gray-500">Start tracking your calories by adding your first food item!</p>
-                <div class="mt-4">
-                    <a href="#add-food-form" class="inline-flex items-center text-blue-600 hover:text-blue-800">
-                        <svg class="h-5 w-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                        </svg>
-                        Add your first item
-                    </a>
-                </div>
+                <p class="text-gray-500 mb-6">
+                    Start tracking your calories by adding your first food item!
+                </p>
+                <a href="#add-food-section" 
+                   class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-200">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                    </svg>
+                    Add Your First Item
+                </a>
             </div>
             {% endif %}
         </div>
     </div>
 </div>
-{% endblock %}
-
-{% block extra_js %}
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const addLink = document.querySelector('a[href="#add-food-form"]');
-        if (addLink) {
-            addLink.addEventListener('click', function(e) {
-                e.preventDefault();
-                const form = document.querySelector('form[action="{% url 'add_food_item' %}"]');
-                if (form) {
-                    form.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }
-            });
-        }
-    });
-</script>
 {% endblock %}
