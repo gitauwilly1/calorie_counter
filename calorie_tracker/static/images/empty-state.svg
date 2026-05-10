@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="150" height="150">
+  <circle cx="100" cy="100" r="70" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="2"/>
+  <circle cx="100" cy="100" r="50" fill="#E5E7EB"/>
+  
+  <!-- Fork -->
+  <g transform="translate(70, 40)">
+    <rect x="0" y="0" width="4" height="40" fill="#9CA3AF"/>
+    <rect x="0" y="0" width="20" height="4" fill="#9CA3AF"/>
+    <rect x="0" y="0" width="4" height="15" fill="#9CA3AF"/>
+    <rect x="8" y="0" width="4" height="15" fill="#9CA3AF"/>
+    <rect x="16" y="0" width="4" height="15" fill="#9CA3AF"/>
+  </g>
+  
+  <!-- Knife -->
+  <g transform="translate(120, 35)">
+    <rect x="0" y="0" width="4" height="45" fill="#9CA3AF"/>
+    <path d="M4 0 Q20 10 15 30 L4 45Z" fill="#9CA3AF"/>
+  </g>
+  
+  <!-- Question mark -->
+  <text x="100" y="165" text-anchor="middle" font-size="24" fill="#9CA3AF" font-family="Arial">?</text>
+</svg>
