@@ -2,6 +2,7 @@
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+import dj_database_url
 
 # Load environment variables
 load_dotenv()
@@ -60,20 +61,26 @@ TEMPLATES = [
 WSGI_APPLICATION = 'calorie_tracker_project.wsgi.application'
 
 # Database configuration
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DB_NAME', 'calorie_tracker_db'),
-        'USER': os.getenv('DB_USER', 'calorie_user'),
-        'PASSWORD': os.getenv('DB_PASSWORD', 'your_password'),
-        'HOST': os.getenv('DB_HOST', 'localhost'),
-        'PORT': os.getenv('DB_PORT', '5432'),
-        'CONN_MAX_AGE': 600,
-        'OPTIONS': {
-            'connect_timeout': 10,
-        } if not DEBUG else {},
+if os.getenv('DATABASE_URL'):
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=os.getenv('DATABASE_URL'),
+            conn_max_age=600,
+            conn_health_checks=True,
+        )
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.getenv('DB_NAME', 'calorie_tracker_db'),
+            'USER': os.getenv('DB_USER', 'calorie_user'),
+            'PASSWORD': os.getenv('DB_PASSWORD', 'your_password'),
+            'HOST': os.getenv('DB_HOST', 'localhost'),
+            'PORT': os.getenv('DB_PORT', '5432'),
+            'CONN_MAX_AGE': 600,
+        }
+    }
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
