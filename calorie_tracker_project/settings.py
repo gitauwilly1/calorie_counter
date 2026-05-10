@@ -77,7 +77,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.getenv('DB_NAME', 'calorie_tracker_db'),
         'USER': os.getenv('DB_USER', 'calorie_user'),
-        'PASSWORD': os.getenv('DB_PASSWORD', 'password123'),
+        'PASSWORD': os.getenv('DB_PASSWORD', 'your_password'),
         'HOST': os.getenv('DB_HOST', 'localhost'),
         'PORT': os.getenv('DB_PORT', '5432'),
     }
