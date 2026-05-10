@@ -6,16 +6,9 @@ from .forms import FoodItemForm
 
 
 def index(request):
-    # Get today's date
     today = timezone.now().date()
-    
-    # Get all food items for today
     food_items = FoodItem.objects.filter(date_added__date=today)
-    
-    # Calculate total calories for today
     total_calories = FoodItem.get_total_calories_today()
-    
-    # Create form for adding new food items
     form = FoodItemForm()
     
     context = {
@@ -24,7 +17,7 @@ def index(request):
         'form': form,
     }
     
-    return render(request, '/index.html', context)
+    return render(request, 'index.html', context)  # Changed from 'calorie_tracker/index.html'
 
 
 def add_food_item(request):
@@ -37,7 +30,6 @@ def add_food_item(request):
             messages.success(request, f'Added {food_item.name} ({food_item.calories} calories) successfully!')
             return redirect('index')
         else:
-            # If form is invalid, re-render index with errors
             today = timezone.now().date()
             food_items = FoodItem.objects.filter(date_added__date=today)
             total_calories = FoodItem.get_total_calories_today()
@@ -47,7 +39,7 @@ def add_food_item(request):
                 'total_calories': total_calories,
                 'form': form,
             }
-            return render(request, '/index.html', context)
+            return render(request, 'index.html', context)  # Changed
     
     return redirect('index')
 
