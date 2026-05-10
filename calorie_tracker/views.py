@@ -24,7 +24,7 @@ def index(request):
         'form': form,
     }
     
-    return render(request, 'calorie_tracker/index.html', context)
+    return render(request, '/index.html', context)
 
 
 def add_food_item(request):
@@ -47,7 +47,7 @@ def add_food_item(request):
                 'total_calories': total_calories,
                 'form': form,
             }
-            return render(request, 'calorie_tracker/index.html', context)
+            return render(request, '/index.html', context)
     
     return redirect('index')
 
