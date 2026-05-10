@@ -6,7 +6,7 @@ from .models import FoodItem
 @admin.register(FoodItem)
 class FoodItemAdmin(admin.ModelAdmin):
     # Display columns in the list view
-    list_display = ['name', 'calories', 'date_added', 'calorie_level', 'added_today']
+    list_display = ['name', 'calories', 'calorie_level', 'added_today', 'date_added']
     
     # Filter options
     list_filter = ['date_added']
@@ -34,6 +34,7 @@ class FoodItemAdmin(admin.ModelAdmin):
         }),
     )
     
+    @admin.display(description='Calorie Level', ordering='calories')
     def calorie_level(self, obj):
         if obj.calories > 500:
             color = 'red'
@@ -49,33 +50,29 @@ class FoodItemAdmin(admin.ModelAdmin):
             '<span style="color: {}; font-weight: bold;">● {} ({} cal)</span>',
             color, label, obj.calories
         )
-    calorie_level.short_description = 'Calorie Level'
-    calorie_level.admin_order_field = 'calories'
     
+    @admin.display(description='Added Today', boolean=True)
     def added_today(self, obj):
         from django.utils import timezone
         today = timezone.now().date()
-        if obj.date_added.date() == today:
-            return format_html(
-                '<span style="color: green;">✓ Yes</span>'
-            )
-        return format_html(
-            '<span style="color: gray;">No ({})</span>',
-            obj.date_added.strftime('%Y-%m-%d')
-        )
-    added_today.short_description = 'Added Today'
+        is_today = obj.date_added.date() == today
+        
+        if is_today:
+            return True
+        return False
     
     # Custom actions
     actions = ['mark_as_high_calorie', 'delete_today_items']
     
+    @admin.action(description="Mark selected as High Calorie (999 cal)")
     def mark_as_high_calorie(self, request, queryset):
         updated = queryset.update(calories=999)
         self.message_user(
             request,
             f'{updated} food items were marked as high calorie (999 cal).'
         )
-    mark_as_high_calorie.short_description = "Mark selected as High Calorie (999 cal)"
     
+    @admin.action(description="Delete today's items from selected")
     def delete_today_items(self, request, queryset):
         from django.utils import timezone
         today = timezone.now().date()
@@ -86,4 +83,3 @@ class FoodItemAdmin(admin.ModelAdmin):
             request,
             f'{count} food items from today were deleted.'
         )
-    delete_today_items.short_description = "Delete today's items from selected"
