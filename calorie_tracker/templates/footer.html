@@ -1,93 +1,68 @@
-    <footer class="bg-white shadow-lg mt-auto" role="contentinfo">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div>
-                    <div class="flex items-center space-x-2 mb-4">
-                        <img src="{% static 'calorie_tracker/images/logo.svg' %}" 
-                             alt="Logo" 
-                             class="h-8 w-8"
-                             width="32" 
-                             height="32">
-                        <span class="text-lg font-bold text-gray-800">Calorie Counter</span>
-                    </div>
-                    <p class="text-gray-600 text-sm">
-                        Track your daily calorie intake and maintain a healthy lifestyle. 
-                        Make informed decisions about your nutrition.
-                    </p>
+{% load static %}
+<footer class="bg-white shadow-lg mt-auto" role="contentinfo">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+                <div class="flex items-center space-x-2 mb-4">
+                    <img src="{% static 'images/logo.svg' %}" 
+                         alt="Logo" 
+                         class="h-8 w-8">
+                    <span class="text-lg font-bold text-gray-800">Calorie Counter</span>
                 </div>
-                
-                <div>
-                    <h3 class="text-sm font-semibold text-gray-800 uppercase tracking-wider mb-4">
-                        Quick Links
-                    </h3>
-                    <ul class="space-y-2">
-                        <li>
-                            <a href="{% url 'index' %}" class="text-gray-600 hover:text-blue-600 text-sm transition duration-200">
-                                Dashboard
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#add-food-section" class="text-gray-600 hover:text-blue-600 text-sm transition duration-200">
-                                Add Food Item
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="text-gray-600 hover:text-blue-600 text-sm transition duration-200" onclick="alert('Feature coming soon!')">
-                                History & Analytics
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="text-gray-600 hover:text-blue-600 text-sm transition duration-200" onclick="alert('Feature coming soon!')">
-                                Settings
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h3 class="text-sm font-semibold text-gray-800 uppercase tracking-wider mb-4">
-                        Health Tips
-                    </h3>
-                    <ul class="space-y-2 text-sm text-gray-600">
-                        <li class="flex items-start">
-                            <svg class="w-4 h-4 mr-2 mt-0.5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                            </svg>
-                            Stay hydrated - drink 8 glasses of water daily
-                        </li>
-                        <li class="flex items-start">
-                            <svg class="w-4 h-4 mr-2 mt-0.5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                            </svg>
-                            Include vegetables in every meal
-                        </li>
-                        <li class="flex items-start">
-                            <svg class="w-4 h-4 mr-2 mt-0.5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                            </svg>
-                            Exercise at least 30 minutes daily
-                        </li>
-                    </ul>
-                </div>
+                <p class="text-gray-600 text-sm">
+                    Track your daily calorie intake and maintain a healthy lifestyle. 
+                    Make informed decisions about your nutrition.
+                </p>
             </div>
             
-            <div class="mt-8 pt-8 border-t border-gray-200">
-                <div class="flex flex-col md:flex-row justify-between items-center">
-                    <p class="text-gray-500 text-sm">
-                        &copy; {% now "Y" %} Calorie Counter. All rights reserved.
-                    </p>
-                    <div class="flex space-x-6 mt-4 md:mt-0">
-                        <a href="#" class="text-gray-400 hover:text-blue-600 transition duration-200" aria-label="Privacy Policy">
-                            Privacy Policy
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-blue-600 transition duration-200" aria-label="Terms of Service">
-                            Terms of Service
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-blue-600 transition duration-200" aria-label="Contact">
-                            Contact
-                        </a>
-                    </div>
+            <div>
+                <h3 class="text-sm font-semibold text-gray-800 uppercase tracking-wider mb-4">Quick Links</h3>
+                <ul class="space-y-2">
+                    <li>
+                        <a href="{% url 'index' %}" class="text-gray-600 hover:text-blue-600 text-sm transition duration-200">Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="#add-food-section" class="text-gray-600 hover:text-blue-600 text-sm transition duration-200">Add Food Item</a>
+                    </li>
+                </ul>
+            </div>
+            
+            <div>
+                <h3 class="text-sm font-semibold text-gray-800 uppercase tracking-wider mb-4">Health Tips</h3>
+                <ul class="space-y-2 text-sm text-gray-600">
+                    <li class="flex items-start">
+                        <svg class="w-4 h-4 mr-2 mt-0.5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                        </svg>
+                        Stay hydrated - drink 8 glasses of water daily
+                    </li>
+                    <li class="flex items-start">
+                        <svg class="w-4 h-4 mr-2 mt-0.5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                        </svg>
+                        Include vegetables in every meal
+                    </li>
+                    <li class="flex items-start">
+                        <svg class="w-4 h-4 mr-2 mt-0.5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                        </svg>
+                        Exercise at least 30 minutes daily
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="mt-8 pt-8 border-t border-gray-200">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-500 text-sm">
+                    &copy; {% now "Y" %} Calorie Counter. All rights reserved.
+                </p>
+                <div class="flex space-x-6 mt-4 md:mt-0">
+                    <a href="#" class="text-gray-400 hover:text-blue-600 transition duration-200 text-sm">Privacy Policy</a>
+                    <a href="#" class="text-gray-400 hover:text-blue-600 transition duration-200 text-sm">Terms of Service</a>
+                    <a href="#" class="text-gray-400 hover:text-blue-600 transition duration-200 text-sm">Contact</a>
                 </div>
             </div>
         </div>
-    </footer>
+    </div>
+</footer>
