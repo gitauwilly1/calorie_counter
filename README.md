@@ -135,11 +135,6 @@ Calorie Counter provides a structured nutritional tracking journey:
 
 ---
 
-## Live Demo
-
-Experience the application live at: **[Calorie Counter on Render](https://calorie-counter.onrender.com)**
-
----
 
 ## Known Bugs
 
